@@ -1,0 +1,163 @@
+﻿@{
+    ViewData["Title"] = "About Us";
+}
+<title>@ViewData["Title"]</title>
+<style>
+    .about-us-header {
+        background-image: url('gym.jpg');
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+        padding: 80px 20px;
+        text-align: center;
+    }
+
+        .about-us-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+    .section-title {
+        font-size: 1.8rem;
+        color: #0062cc;
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+
+    .feature-list li {
+        margin-bottom: 15px;
+    }
+
+    .vision-section p {
+        font-size: 1.1rem;
+        color: #555;
+    }
+
+    .container {
+        max-width: 900px;
+    }
+
+    .home-background1 {
+        background-size: cover;
+        background-position: center;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        background-image: url('../gym.jpg');
+        padding: 20px;
+        color: white;
+    }
+
+        /* Adding a semi-transparent overlay */
+        .home-background1::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Dark overlay */
+            z-index: -1;
+        }
+
+    h1, h2 {
+        color: greenyellow;
+    }
+
+    .content {
+        max-width: 1000px;
+        margin: auto;
+    }
+
+    .team-member {
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+        .team-member h3 {
+            margin-top: 10px;
+            color: #555;
+        }
+
+        .team-member img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ddd;
+            padding: 5px;
+            background-color: #f9f9f9;
+        }
+
+    img.er-diagram {
+        width: 100%;
+        height: auto;
+        max-width: 600px;
+        display: block;
+        margin: 20px auto;
+        border: 1px solid #ddd;
+        padding: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .description {
+        font-style: italic;
+        color: #666;
+        margin-top: 5px;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="content">
+        <h1>About Us</h1>
+
+        <p><strong>Fitness Club App</strong> is a comprehensive platform designed to help gym owners and fitness enthusiasts track their workouts, manage goals, and view insightful data on workout trends and user engagement. The app allows users to log their activities, view workout statistics, and track their daily goal achievements. Through interactive charts and data visualizations, users can stay motivated and keep a check on their fitness progress. This application is built with performance and user experience in mind, ensuring easy navigation and responsive design for both desktop and mobile users.</p>
+
+        <h2>Our Team</h2>
+        <p>This application was developed by a dedicated team of four developers who collaborated to bring this project to life.</p>
+
+
+        <div class="row text-center">
+            <!-- Member 1 -->
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="team-member">
+                    <img src="~/pooja.jpg" />
+                    <div class="member-name" style="color: greenyellow">Pooja Regadda</div>
+                    <p>Masters Student at USF University in Business Analytics and Information Systems. Pooja Involved in both development and testing, ensuring the application runs smoothly and meets all requirements. Developed Users tab and its related pages.</p>
+                </div>
+            </div>
+
+            <!-- Member 2 -->
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="team-member">
+                    <img src="~/pooja.jpg" />
+                    <div class="member-name" style="color: greenyellow">Sathwik Varma</div>
+                    <p>Masters Student at USF University in Business Analytics and Information Systems. Sathwik developed data visualization features using libraries like ApexCharts, creating time trend charts, pie charts, and bar graphs to display workout and user data in an easy-to-understand format.</p>
+                </div>
+            </div>
+
+            <!-- Member 3 -->
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="team-member">
+                    <img src="~/pooja.jpg" />
+                    <div class="member-name" style="color: greenyellow">Dhriti</div>
+                    <p>Masters Student at USF University in Business Analytics and Information Systems. Dhriti crafted a responsive and user-friendly interface using HTML, CSS, and JavaScript. She created layouts, styled application pages, and ensured the app's design was engaging and intuitive for users.</p>
+                </div>
+            </div>
+
+            <!-- Member 4 -->
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="team-member">
+                    <img src="~/pooja.jpg" alt="Member 4">
+                    <div class="member-name" style="color: greenyellow">Mike Lee</div>
+                    @* <div class="member-role">QA Engineer</div> *@
+                    <p>Masters Student at USF University in Business Analytics and Information Systems. Led the development of the "About Us" page and designed the ER diagram to represent the application’s data structure, while also managing the deployment of the application to Azure.</p>
+                </div>
+            </div>
+
+            <h2>Data Model</h2>
+            <p>Below is an image of the ER diagram representing the application's data model, showing the key tables and relationships between Users and Activities, demonstrating one-to-many relationships and normalized structure.</p>
+
+            <img src="~/er-diagram.png" alt="ER Diagram of Fitness Club App" class="er-diagram">
+        </div>
+    </div>

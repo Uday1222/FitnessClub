@@ -1,0 +1,37 @@
+﻿@model UserActivity
+@{
+    ViewData["Title"] = "Log Activity";
+}
+
+<div class="container pt-3">
+    <h2>Log Activity</h2>
+
+    <form asp-action="Log" method="post">
+        <div class="form-group">
+            <label asp-for="UserId" class="control-label">User ID</label>
+            <input asp-for="UserId" class="form-control" />
+            <span asp-validation-for="UserId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ActivityDate" class="control-label">Activity Date</label>
+            <input asp-for="ActivityDate" class="form-control" type="date" />
+            <span asp-validation-for="ActivityDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="WorkoutType" class="control-label">Workout Type</label>
+            <select asp-for="WorkoutType" class="form-control" asp-items="@(new SelectList(ViewBag.WorkoutTypes))">
+                <option value="">-- Select Workout Type --</option>
+            </select>
+            <span asp-validation-for="WorkoutType" class="text-danger"></span>
+        </div>
+        <div class="form-group pb-2">
+            <label asp-for="Duration" class="control-label">Duration (in mins)</label>
+            <input asp-for="Duration" class="form-control" />
+            <span asp-validation-for="Duration" class="text-danger"></span>
+        </div>
+
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        <button type="submit" class="btn btn-primary pt-2">Log Activity</button>
+    </form>
+</div>
+

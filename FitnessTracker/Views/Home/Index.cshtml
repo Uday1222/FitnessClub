@@ -1,0 +1,332 @@
+﻿@* @{
+    ViewData["Title"] = "Home Page";
+} *@
+
+@* <div class="fullscreen-image">
+    <img src="~/gym.jpg" alt="Background Image">
+</div> *@
+
+@model DashboardViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .home-background {
+        background-size: cover;
+        background-position: center;
+        min-height: 100vh;
+        position: relative;
+        background-image: url('gym.jpg');
+        z-index: 1;
+        padding: 20px;
+        color: white;
+    }
+
+        /* Adding a semi-transparent overlay */
+        .home-background::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Dark overlay */
+            z-index: -1;
+        }
+
+    h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .chart-container {
+        background-color: rgba(255, 255, 255, 0.2); /* Light semi-transparent background */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+    }
+
+
+    .row {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+</style>
+
+<div class="container-fluid pt-2">
+    <p><strong>Most Popular Workout:</strong> @Model.MostPopularWorkout</p>
+    <p><strong>Total Workout Minutes:</strong> @Model.TotalWorkoutHours</p>
+    <p><strong>Top Active Users:</strong> @string.Join(", ", Model.TopActiveUsers)</p>
+
+    <h4>Daily Goal Achievement</h4>
+    <div class="progress">
+        <div class="progress-bar text-white" style="width:@Model.DailyGoalAchievementPercentage%" role="progressbar">@Model.DailyGoalAchievementPercentage.ToString("##") % of users met their goals today</div>
+    </div>
+
+    <div class="row pt-3">
+        <div class="col-md-3 chart-container">
+            <canvas id="userActivityChart"></canvas>
+        </div>
+        <div class="col-md-3 chart-container">
+            <canvas id="workoutTypeChart"></canvas>
+        </div>
+        <div class="col-md-3 chart-container">
+            <canvas id="userGrowthChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@* <script>
+    // User Activity Chart
+    const userActivityChartCtx = document.getElementById('userActivityChart').getContext('2d');
+    const userActivityChart = new Chart(userActivityChartCtx, {
+        type: 'line',
+        data: {
+            labels: [...Array(@Model.NewUsersPerMonth.Count).keys()],
+            datasets: [{
+                label: 'New Users',
+                data: @Html.Raw(Json.Serialize(Model.NewUsersPerMonth)),
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true, position: 'top' }
+            },
+        }
+    });
+
+    // Workout Type Chart
+    const workoutTypeChartCtx = document.getElementById('workoutTypeChart').getContext('2d');
+    const workoutTypeChart = new Chart(workoutTypeChartCtx, {
+        type: 'pie',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.WorkoutTypeCounts.Keys)),
+            datasets: [{
+                data: @Html.Raw(Json.Serialize(Model.WorkoutTypeCounts.Values)),
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: true, position: 'top' }
+            },
+        }
+    });
+
+    // User Growth Chart
+    const userGrowthChartCtx = document.getElementById('userGrowthChart').getContext('2d');
+    const userGrowthChart = new Chart(userGrowthChartCtx, {
+        type: 'bar',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.NewUsersPerMonth)),
+            datasets: [{
+                label: 'New Users Growth',
+                data: @Html.Raw(Json.Serialize(Model.NewUsersPerMonth)),
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true, position: 'top' }
+            },
+        }
+    });
+</script> *@
+
+@* working code *@
+@* <script>
+    const textColor = 'rgba(255, 255, 255, 0.9)'; // Brighter white for visibility
+    const gridColor = 'rgba(255, 255, 255, 0.2)'; // Light grid color for subtle contrast
+
+    // User Activity Chart
+    const userActivityChartCtx = document.getElementById('userActivityChart').getContext('2d');
+    const userActivityChart = new Chart(userActivityChartCtx, {
+        type: 'line',
+        data: {
+            labels: [...Array(@Model.NewUsersPerMonth.Count).keys()],
+            datasets: [{
+                label: 'New Users',
+                data: @Html.Raw(Json.Serialize(Model.NewUsersPerMonth)),
+                backgroundColor: 'rgba(0, 128, 255, 0.3)', // Softer blue fill for line chart
+                borderColor: 'rgba(0, 128, 255, 1)', // Stronger blue line color
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: { color: textColor }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: textColor },
+                    grid: { color: gridColor }
+                },
+                y: {
+                    ticks: { color: textColor },
+                    grid: { color: gridColor }
+                }
+            }
+        }
+    });
+
+    // Workout Type Chart
+    const workoutTypeChartCtx = document.getElementById('workoutTypeChart').getContext('2d');
+    const workoutTypeChart = new Chart(workoutTypeChartCtx, {
+        type: 'pie',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.WorkoutTypeCounts.Keys)),
+            datasets: [{
+                data: @Html.Raw(Json.Serialize(Model.WorkoutTypeCounts.Values)),
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'] // Brighter colors for better visibility
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: { color: textColor }
+                }
+            }
+        }
+    });
+
+    // User Growth Chart
+    const userGrowthChartCtx = document.getElementById('userGrowthChart').getContext('2d');
+    const userGrowthChart = new Chart(userGrowthChartCtx, {
+        type: 'bar',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.NewUsersPerMonth)),
+            datasets: [{
+                label: 'New Users Growth',
+                data: @Html.Raw(Json.Serialize(Model.NewUsersPerMonth)),
+                backgroundColor: 'rgba(153, 102, 255, 0.6)', // Light purple with some opacity
+                borderColor: 'rgba(153, 102, 255, 1)', // Stronger purple border
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: { color: textColor }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: textColor },
+                    grid: { color: gridColor }
+                },
+                y: {
+                    ticks: { color: textColor },
+                    grid: { color: gridColor }
+                }
+            }
+        }
+    });
+</script> *@
+
+<script>
+    const textColor = 'rgba(255, 255, 255, 0.9)';
+    const gridColor = 'rgba(255, 255, 255, 0.2)';
+
+    // User Activity Chart
+    const userActivityChartCtx = document.getElementById('userActivityChart').getContext('2d');
+    const userActivityChart = new Chart(userActivityChartCtx, {
+        type: 'line',
+        data: {
+            labels: [...Array(@Model.NewUsersPerMonth.Count).keys()],
+            datasets: [{
+                label: 'New Users',
+                data: @Html.Raw(Json.Serialize(Model.NewUsersPerMonth)),
+                backgroundColor: 'rgba(0, 128, 255, 0.3)', // Softer blue
+                borderColor: 'rgba(0, 128, 255, 1)', // Stronger blue
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true, labels: { color: textColor } }
+            },
+            scales: {
+                x: { ticks: { color: textColor }, grid: { color: gridColor } },
+                y: { ticks: { color: textColor }, grid: { color: gridColor } }
+            }
+        }
+    });
+
+    // Workout Type Chart
+    const workoutTypeChartCtx = document.getElementById('workoutTypeChart').getContext('2d');
+    const workoutTypeChart = new Chart(workoutTypeChartCtx, {
+        type: 'pie',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.WorkoutTypeCounts.Keys)),
+            datasets: [{
+                data: @Html.Raw(Json.Serialize(Model.WorkoutTypeCounts.Values)),
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: true, labels: { color: textColor } }
+            }
+        }
+    });
+
+    // User Growth Chart
+    const userGrowthChartCtx = document.getElementById('userGrowthChart').getContext('2d');
+    const userGrowthChart = new Chart(userGrowthChartCtx, {
+        type: 'bar',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.NewUsersPerMonth.Keys)),
+            datasets: [{
+                label: 'New Users Growth',
+                data: @Html.Raw(Json.Serialize(Model.NewUsersPerMonth.Values)),
+                backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true, labels: { color: textColor } }
+            },
+            scales: {
+                x: { ticks: { color: textColor }, grid: { color: gridColor } },
+                y: { ticks: { color: textColor }, grid: { color: gridColor } }
+            }
+        }
+    });
+
+</script>
+

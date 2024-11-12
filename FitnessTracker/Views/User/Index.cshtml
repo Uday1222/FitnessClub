@@ -1,0 +1,72 @@
+﻿@model IEnumerable<User>
+
+@{
+    ViewBag.Title = "User List";
+}
+<style>
+    .home-background {
+        background-size: cover;
+        background-position: center;
+        min-height: 100vh;
+        position: relative;
+        background-image: url('gym.jpg');
+        z-index: 1;
+        padding: 20px;
+        color: white;
+    }
+
+        /* Adding a semi-transparent overlay */
+        .home-background::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Dark overlay */
+            z-index: -1;
+        }
+</style>
+
+<div class="container-fluid pt-3">
+    <h3 class="mb-4">Users List</h3>
+
+    <div class="mb-3">
+        <a asp-action="create" class="btn btn-primary">Create</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>User Id</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Email</th>
+                    <th>Subscription Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.UserId</td>
+                        <td>@user.Name</td>
+                        <td>@user.Age</td>
+                        <td>@user.Gender</td>
+                        <td>@user.EmailId</td>
+                        <td>@user.SubscriptionType</td>
+                        <td>
+                            <div class="d-flex flex-column flex-md-row gap-2">
+                                <a asp-action="Edit" asp-route-id="@user.UserId" class="btn btn-warning btn-sm">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@user.UserId" class="btn btn-danger btn-sm">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
